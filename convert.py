@@ -8,24 +8,26 @@ def convert(file):
     print(commands)
     new_content = ""
     for command in commands:
-        if command[0:2] == 'PD':
-            print(command)
-            split_command = command.split(',')
-            if len(split_command) > 2:
-                print(split_command)
-                new_split_command = []
-                for i,c in enumerate(split_command):
-                    if i == 0:
-                        c = c[2:]
-                    if not i%2:
-                        new_split_command.append(command[0:2] + c + ',' + split_command[i+1])
-                
-                print(new_split_command)
-                new_content += ';'.join(new_split_command) + ';'
+        command = command.strip()
+        if len(command) > 0:
+            if command[0:2] == 'PD':
+                print(command)
+                split_command = command.split(',')
+                if len(split_command) > 2:
+                    print(split_command)
+                    new_split_command = []
+                    for i,c in enumerate(split_command):
+                        if i == 0:
+                            c = c[2:]
+                        if not i%2:
+                            new_split_command.append(command[0:2] + c + ',' + split_command[i+1])
+                    
+                    print(new_split_command)
+                    new_content += ';'.join(new_split_command) + ';'
+                else:
+                    new_content += command + ';'
             else:
                 new_content += command + ';'
-        else:
-            new_content += command + ';'
 
     print(new_content)
 
