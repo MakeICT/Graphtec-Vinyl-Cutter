@@ -5,5 +5,29 @@
 {% block header %}Main{% endblock header %}
 
 {% block content %}
-Welcome to VinylCut V0.00
+  <div class="card">
+    <div class = "card-body">
+      <h5 class="card-title">
+        Files
+      </h5>
+      <p class="card-text">
+        {{ selected_file }}
+        <button class="btn float-right" onclick="window.location.href = '/files';">
+          <i class="fas fa-file-import"> Choose File</i>
+        </button>
+      </p>
+    </div>
+  </div>  
+  <div class="card">
+    <div class = "card-body">
+      <h5 class="card-title">
+        Controls
+      </h5>
+        <form method="post" action="/run_file/{{ selected_file }}">
+          <button class="btn btn-success" type="submit">
+              <i class="fas fa-play"> Run File</i>
+          </button>
+        </form>
+    </div>
+  </div>
 {% endblock content %}
