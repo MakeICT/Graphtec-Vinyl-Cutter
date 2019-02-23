@@ -4,52 +4,35 @@
 
 {% block header %}Files{% endblock header %}
 
-{% block head %}
-  <script type="text/javascript">
-    var selected = null
-
-    function get_selected() {
-      return fetch("get_active_file")
-        .then(function(res){
-          return res.text();
-        }).then(function(text){
-          selected = "card-"+text;
-          console.log(selected);
-          return text;
-        });
-    }
-
-    function update_filename(obj) {
-      document.getElementById('filelabel').innerHTML = obj.value;
-      // console.log(obj.value);
-    }
-
-    function set_selected(obj) {
-      // console.log(obj.textContent.trim());
-      var last_selected = document.getElementById("card-" + selected);
-
-      if (last_selected != null)
-        last_selected.classList.remove("bg-success");
-      selected = obj.textContent.trim();
-      obj.classList.add("bg-success");
-      fetch("set_active_file/"+selected, {method:"POST"});
-      window.location.href = '/';
-      // console.log(selected);
-    }
-  </script>
-{% endblock head %}
-
-
-
 {% block content %}
-  <body onload="get_selected()">
+  <body>
+    <script type="text/javascript">
+      var selected = '{{ selected_file }}';
+      console.log(selected);
+
+      function update_filename(obj) {
+        document.getElementById('filelabel').innerHTML = obj.value;
+        // console.log(obj.value);
+      }
+
+      function set_selected(obj) {
+        // console.log(obj.textContent.trim());
+        var last_selected = document.getElementById("card-" + selected);
+        if (last_selected != null)
+          last_selected.classList.remove("bg-success");
+        selected = obj.textContent.trim();
+        obj.classList.add("bg-success");
+        fetch("set_active_file/"+selected), {method:"POST"};
+        // console.log(selected);
+      }
+    </script>
 
   {% if files %}
     {% for file in files %}
-      {% if file == selected  %} 
-      <div id="card-{{ file }}" class="card my-1 py-0 bg-success" onclick="set_selected(this)">
+      {% if file == selected_file  %} 
+      <div id="card-{{ file }}" class="card bg-success" onclick="set_selected(this)">
       {% else %} 
-      <div id="card-{{ file }}" class="card my-1 py-0" onclick="set_selected(this)"> 
+      <div id="card-{{ file }}" class="card" onclick="set_selected(this)"> 
       {% endif %}
         <div class="card-body">
 <!--           {% if file == selected_file  %} 
@@ -60,15 +43,15 @@
           <span>
             {{ file }}
           </span>
-          <button class="btn btn-danger float-right" onclick="alert('delete');event.cancelBubble=true;">
+          <button class="btn btn-danger float-right">
             <i class="fas fa-trash-alt float-right"></i>
           </button>
         </div>
       </div>
     {% endfor %}
   {% endif %}
-  <div class="card my-1">
-    <div class="card-body py-2">
+  <div class="card">
+    <div class="card-body">
       <form method=post enctype=multipart/form-data>
         <!-- <input type="file" name="file" class="btn"> -->
         <!-- <input type=submit value=Upload> -->
