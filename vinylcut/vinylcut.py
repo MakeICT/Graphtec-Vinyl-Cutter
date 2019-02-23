@@ -41,7 +41,7 @@ def main():
 
 @app.route('/files', methods=['GET', 'POST'])
 def upload_file():
-        # check if the post request has the file part
+    # check if the post request has the file part
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file selected', 'danger')
@@ -63,7 +63,9 @@ def upload_file():
             # return redirect(url_for('main'))
             flash('File uploaded successfully', 'success')
             return redirect(request.url)
-    return render_template('files.html', files = os.listdir('./uploads'), selected_file=selected_file)
+    file=FileInfo.query.all()[-1].selected_file
+    all_files=[file for file in os.listdir('./uploads') if allowed_file(file)]
+    return render_template('files.html', files=all_files, selected_file=file)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -85,7 +87,8 @@ def get_active_file():
 @app.route('/delete_all', methods=['POST'])
 def delete_all():
     for file in os.listdir('./uploads'):
-        os.remove("./uploads/" + file)
+        if(allowed_file(file)):
+            os.remove("./uploads/" + file)
     return redirect(url_for('upload_file'))
 
 @app.route('/run_file/<filename>', methods=['POST'])
