@@ -104,9 +104,12 @@ def delete_all():
 @app.route('/run_file/<filename>', methods=['POST'])
 def run_file(filename):
     print("Running file:",filename)
-    gt.Run(os.getcwd() + '/uploads/' + filename)
-    #return "Running File: "+filename, status.HTTP_200_OK
-    flash("Running File: "+filename, 'success')
+    if gt.Run(os.getcwd() + '/uploads/' + filename):
+        #return "Running File: "+filename, status.HTTP_200_OK
+        flash("Running file: "+filename, 'success')
+    else:
+        flash("Failed to run file: "+filename, 'danger')
+
     return redirect(url_for('main'))
 
 if __name__ == "__main__":
