@@ -4,20 +4,18 @@ import serial, os
 
 class Graphtec():
     def __init__(self):
-        return
-        self.s = serial.Serial("/dev/ttyS0", 9600, stopbits=serial.STOPBITS_TWO)
+        self.s = serial.Serial("/dev/ttyUSB0", 9600, stopbits=serial.STOPBITS_TWO)
 
     def Run(self, filename):
-        return
         print(os.path)
         # cut_file = os.listdir('./CUT_NOW')[0]
-        s.write(open(filename,"r").read())
-        s.close()
+        self.s.write(str.encode(open(filename,"r").read()))
+        # self.s.close()
         # os.rename("./CUT_NOW/"+cut_file, "./CUT_DONE/"+cut_file)
 
     def Stop(self):
         self.s.reset_output_buffer()
-        s.close()
+        self.s.close()
 
     def Pause(self):
         self.s.set_output_flow_control(True)
