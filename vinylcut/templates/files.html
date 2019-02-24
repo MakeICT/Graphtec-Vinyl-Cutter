@@ -27,29 +27,25 @@
     function set_selected(obj) {
       // console.log(obj.textContent.trim());
       var last_selected = document.getElementById("card-" + selected);
+      obj.classList.add("bg-success");
 
-      if (last_selected != null) {
-        last_selected.classList.remove("bg-success");
-        }
+      // if (last_selected != null) {
+      //   last_selected.classList.remove("bg-success");
+      //   }
       var selected = obj.textContent.trim();
       console.log(selected);
-      obj.classList.add("bg-success");
-      console.log("start fetch");
-      var r = fetch("/set_active_file/"+selected, {method:"POST"})
+      var r = fetch("set_active_file/"+selected, {method:"POST"})
           .then(function(response){
               console.log("fetch response");
-              if(response.ok) {
-                  console.log("OKAY");
-                  console.log(response);
-              }
-              else{
-                console.log("NOT OKAY");
-                  }
+                if(response.ok) {
+                    console.log("OKAY");
+                    console.log(response);
+                    window.location.href = '/';
+                }
+                else{
+                  console.log("NOT OKAY");
+                }
               });
-      console.log(r);
-      console.log("end fetch");
-      window.location.href = '/';
-      // console.log(selected);
     }
   </script>
 {% endblock head %}
