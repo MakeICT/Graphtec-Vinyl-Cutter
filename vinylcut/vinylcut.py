@@ -82,7 +82,7 @@ def uploaded_file(filename):
 def set_active_file(filename):
     db.session.add(FileInfo(selected_file = filename))
     db.session.commit()
-    print("setting active file:",)
+    print("setting active file:",filename)
     return "OKAY", status.HTTP_200_OK
 
 @app.route('/get_active_file')
@@ -114,3 +114,4 @@ def run_file(filename):
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
+    # app.run(debug=True)
