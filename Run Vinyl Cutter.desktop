@@ -1,9 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Run Vinyl Cutter
-Exec=python /home/maker/Desktop/graphtec-run.py
-Icon=
-Path=/home/maker/Desktop
-Terminal=false
-StartupNotify=false
