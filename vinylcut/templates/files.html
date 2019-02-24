@@ -28,11 +28,26 @@
       // console.log(obj.textContent.trim());
       var last_selected = document.getElementById("card-" + selected);
 
-      if (last_selected != null)
+      if (last_selected != null) {
         last_selected.classList.remove("bg-success");
-      selected = obj.textContent.trim();
+        }
+      var selected = obj.textContent.trim();
+      console.log(selected);
       obj.classList.add("bg-success");
-      fetch("set_active_file/"+selected, {method:"POST"});
+      console.log("start fetch");
+      var r = fetch("/set_active_file/"+selected, {method:"POST"})
+          .then(function(response){
+              console.log("fetch response");
+              if(response.ok) {
+                  console.log("OKAY");
+                  console.log(response);
+              }
+              else{
+                console.log("NOT OKAY");
+                  }
+              });
+      console.log(r);
+      console.log("end fetch");
       window.location.href = '/';
       // console.log(selected);
     }
