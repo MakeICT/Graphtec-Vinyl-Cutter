@@ -44,9 +44,13 @@
     }
 
     function show_active(element_id) {
-      document.getElementById(element_id).classList.add("bg-success");
       if(selected) {
-        document.getElementById(selected).classList.remove("bg-success");
+        document.getElementById(selected).classList.remove("border-success");
+        document.getElementById(selected).classList.remove("border-success");
+        document.getElementById(element_id).classList.add("bg-success");
+      }
+      else {
+        document.getElementById(element_id).classList.add("border-success");
       }
     }
 
