@@ -47,6 +47,10 @@
                 }
               });
     }
+
+    function show_delete(element_id) {
+      document.getElementById(element_id).classList.add("bg-danger");
+    }
   </script>
 {% endblock head %}
 
@@ -71,9 +75,14 @@
           <span>
             {{ file }}
           </span>
-          <button class="btn btn-danger float-right" onclick="alert('delete');event.cancelBubble=true;">
+            <form method="post" action="/delete/{{ file }}" style="display:inline">
+              <button class="btn btn-danger float-right" type="submit" onclick="show_delete('card-'+'{{ file }}');event.cancelBubble=true;">
+                  <i class="fas fa-trash-alt"></i>
+              </button>
+            </form>
+<!--           <button class="btn btn-danger float-right" type="submit" onclick="alert('delete');event.cancelBubble=true;">
             <i class="fas fa-trash-alt float-right"></i>
-          </button>
+          </button> -->
         </div>
       </div>
     {% endfor %}

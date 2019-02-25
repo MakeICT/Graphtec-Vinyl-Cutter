@@ -36,11 +36,7 @@ def allowed_file(filename):
 
 @app.route("/")
 def main():
-    try:
-        file = FileInfo.query.all()[-1].selected_file
-    except:
-        file = "no file selected"
-    return render_template('main.html', selected_file=file )
+    return render_template('main.html', selected_file=get_active_file()[0])
 
 @app.route('/files', methods=['GET', 'POST'])
 def upload_file():
@@ -91,14 +87,26 @@ def get_active_file():
     try:
         file = FileInfo.query.all()[-1].selected_file
     except:
-        file = "no file selected"
+        file = "No file selected"
+    if file == None:
+        file = "No file selected"
     return file, status.HTTP_200_OK
+
+@app.route('/delete/<filename>', methods=['POST'])
+def delete_file(filename):
+    if filename in os.listdir('./uploads'):
+        if(allowed_file(filename)):
+            os.remove("./uploads/" + filename)
+            print(get_active_file())
+            if filename == get_active_file()[0]:
+                print("setting active file to None")
+                set_active_file(None)
+    return redirect(url_for('upload_file'))
 
 @app.route('/delete_all', methods=['POST'])
 def delete_all():
     for file in os.listdir('./uploads'):
-        if(allowed_file(file)):
-            os.remove("./uploads/" + file)
+        delete_file(file)
     return redirect(url_for('upload_file'))
 
 @app.route('/run_file/<filename>', methods=['POST'])
