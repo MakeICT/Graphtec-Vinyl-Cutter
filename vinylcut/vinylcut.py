@@ -74,12 +74,23 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 
+@app.route('/check_file/<filename>')
+def check_file(filename):
+    if filename in os.listdir('./uploads'):
+        return "Found file: " + filename, status.HTTP_200_OK
+    else:
+        return "File not found", status.HTTP_404_NOT_FOUND
+
 @app.route('/set_active_file/<filename>', methods=['POST'])
 def set_active_file(filename):
-    db.session.add(FileInfo(selected_file = filename))
-    db.session.commit()
-    print("setting active file:",filename)
-    return "OKAY", status.HTTP_200_OK
+    if filename == None or check_file(filename)[1] == status.HTTP_200_OK:
+        db.session.add(FileInfo(selected_file = filename))
+        db.session.commit()
+        print("setting active file:",filename)
+        return "OKAY", status.HTTP_200_OK
+
+    else:
+        return "File not found", status.HTTP_404_NOT_FOUND
 
 @app.route('/get_active_file')
 def get_active_file():
