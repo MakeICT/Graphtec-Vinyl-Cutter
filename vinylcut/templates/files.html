@@ -13,25 +13,19 @@
         .then(function(res){
           return res.text();
         }).then(function(text){
-          selected = "card-"+text;
+          var new_selected = "card-"+text;
+          show_active(new_selected);
+          selected = new_selected;
           console.log(selected);
           return text;
         });
     }
 
-    function update_filename(obj) {
-      document.getElementById('filelabel').innerHTML = obj.value;
-      // console.log(obj.value);
-    }
-
     function set_selected(obj) {
       // console.log(obj.textContent.trim());
       var last_selected = document.getElementById("card-" + selected);
-      obj.classList.add("bg-success");
+      show_active(obj.id);
 
-      // if (last_selected != null) {
-      //   last_selected.classList.remove("bg-success");
-      //   }
       var selected = obj.textContent.trim();
       console.log(selected);
       var r = fetch("set_active_file/"+selected, {method:"POST"})
@@ -49,9 +43,17 @@
               });
     }
 
+    function show_active(element_id) {
+      document.getElementById(element_id).classList.add("bg-success");
+      if(selected) {
+        document.getElementById(selected).classList.remove("bg-success");
+      }
+    }
+
     function show_delete(element_id) {
       document.getElementById(element_id).classList.add("bg-danger");
     }
+
   </script>
 {% endblock head %}
 
@@ -62,28 +64,20 @@
 
   {% if files %}
     {% for file in files %}
-      {% if file == selected  %} 
-      <div id="card-{{ file }}" class="card my-1 py-0 bg-success" onclick="set_selected(this)">
-      {% else %} 
       <div id="card-{{ file }}" class="card my-1 py-0" onclick="set_selected(this)"> 
-      {% endif %}
         <div class="card-body">
-<!--           {% if file == selected_file  %} 
-          <i class="far fa-check-square"></i>
-          {% else %} 
-          <i class="far fa-square"></i> 
-          {% endif %} -->
-          <span>
-            {{ file }}
-          </span>
-            <form method="post" action="/delete/{{ file }}" style="display:inline">
-              <button class="btn btn-danger float-right" type="submit" onclick="show_delete('card-'+'{{ file }}');event.cancelBubble=true;">
-                  <i class="fas fa-trash-alt"></i>
-              </button>
-            </form>
-<!--           <button class="btn btn-danger float-right" type="submit" onclick="alert('delete');event.cancelBubble=true;">
-            <i class="fas fa-trash-alt float-right"></i>
-          </button> -->
+          <div class="d-flex align-items-center flex-row">
+            <div class="mr-auto w-75">
+              {{ file }}
+            </div>
+            <div class="flex-shrink">
+              <form method="post" action="/delete/{{ file }}" style="display:inline">
+                <button class="btn btn-danger align-middle m-0" type="submit" onclick="show_delete('card-'+'{{ file }}');event.cancelBubble=true;">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     {% endfor %}

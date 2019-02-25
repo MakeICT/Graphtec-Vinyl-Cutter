@@ -11,9 +11,16 @@
         Files
       </h5>
       <p class="card-text">
-        <button class="btn btn-primary float-left" onclick="window.location.href = '/files';">
-          <i class="fas fa-file"> {{ selected_file }} </i>
-        </button>
+        <div class="d-flex flex-row">
+          <div class="flex-shrink-md-1 mw-100">
+            <button class="btn btn-primary btn-block float-left" onclick="window.location.href = '/files';">
+              <span class="mw-100" style="text-overflow: ellipsis; overflow:hidden; display:block; white-space:nowrap;">
+                <i class="fas fa-file"> {{ selected_file }} </i>
+              </span>
+            </button>
+          </div>
+          <div class="flex-grow-md-1"></div>
+        </div>
       </p>
     </div>
   </div>  
@@ -22,11 +29,15 @@
       <h5 class="card-title">
         Controls
       </h5>
-        <form method="post" action="/run_file/{{ selected_file }}">
-          <button class="btn btn-success" type="submit">
-              <i class="fas fa-play"> Run File</i>
-          </button>
-        </form>
+      <div class="row">
+        <div class="col-sm-4">
+          <form method="post" action="/run_file/{{ selected_file }}">
+            <button class="btn btn-success btn-block" type="submit">
+                <i class="fas fa-play"> Run File</i>
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock content %}
