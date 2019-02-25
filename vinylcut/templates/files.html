@@ -90,7 +90,7 @@
         </button>
       </form>
       <form id="upload_form" method=post enctype=multipart/form-data style="display:inline">
-        <input type="file" style="display:none;" id="file" name="file" onchange="document.getElementById('upload_form').submit();"/>
+        <input type="file" accept=".hpgl,.plt" style="display:none;" id="file" name="file" onchange="document.getElementById('upload_form').submit();"/>
         <button class="btn btn-primary float-left mx-1" type="button" value="Upload" onclick="document.getElementById('file').click();">
           <i class="fas fa-file-upload"> Upload</i>
         </button>
