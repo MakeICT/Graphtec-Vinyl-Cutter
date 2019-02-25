@@ -79,22 +79,16 @@
     {% endfor %}
   {% endif %}
   <div class="card my-1">
-    <div class="card-body py-2">
-      <form method=post enctype=multipart/form-data>
-        <!-- <input type="file" name="file" class="btn"> -->
-        <!-- <input type=submit value=Upload> -->
-        <label id="filelabel" for="loadFile">No File Selected</label>
-        <input class="btn" type="button" id="loadFile" value="Select File" onclick="document.getElementById('file').click();" onchange="update_filename(this);" />
-        <input type="file" style="display:none;" id="file" name="file" onchange="update_filename(this)"/>
-
-        <button type="submit" class="btn" value="Upload">
-          <i class="fas fa-file-upload btn float-left"> Upload</i>
+    <div class="card-body py-2 my-2">
+      <form method="post" action="/delete_all" style="display:inline">
+        <button class="btn btn-danger float-right" type="submit">
+            <i class="fas fa-trash-alt"> Delete All</i>
         </button>
       </form>
-
-      <form method="post" action="/delete_all">
-        <button class="btn btn-danger float-right" type="submit">
-            <i class="fas fa-trash-alt float-right"> Delete All</i>
+      <form id="upload_form" method=post enctype=multipart/form-data style="display:inline">
+        <input type="file" style="display:none;" id="file" name="file" onchange="document.getElementById('upload_form').submit();"/>
+        <button class="btn btn-primary float-right mx-1" type="button" value="Upload" onclick="document.getElementById('file').click();">
+          <i class="fas fa-file-upload"> Upload</i>
         </button>
       </form>
     </div>
