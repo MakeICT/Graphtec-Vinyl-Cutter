@@ -36,7 +36,10 @@ def allowed_file(filename):
 
 @app.route("/")
 def main():
-    file=FileInfo.query.all()[-1].selected_file
+    try:
+        file = FileInfo.query.all()[-1].selected_file
+    except:
+        file = "no file selected"
     return render_template('main.html', selected_file=file )
 
 @app.route('/files', methods=['GET', 'POST'])
@@ -63,7 +66,10 @@ def upload_file():
             # return redirect(url_for('main'))
             flash('File uploaded successfully', 'success')
             return redirect(request.url)
-    file=FileInfo.query.all()[-1].selected_file
+    try:
+        file = FileInfo.query.all()[-1].selected_file
+    except:
+        file = "no file selected"
     all_files=[file for file in os.listdir('./uploads') if allowed_file(file)]
     return render_template('files.html', files=all_files, selected_file=file)
 
@@ -82,7 +88,11 @@ def set_active_file(filename):
 @app.route('/get_active_file')
 def get_active_file():
     print("returning active file")
-    return FileInfo.query.all()[-1].selected_file, status.HTTP_200_OK
+    try:
+        file = FileInfo.query.all()[-1].selected_file
+    except:
+        file = "no file selected"
+    return file, status.HTTP_200_OK
 
 @app.route('/delete_all', methods=['POST'])
 def delete_all():
@@ -94,8 +104,10 @@ def delete_all():
 @app.route('/run_file/<filename>', methods=['POST'])
 def run_file(filename):
     print("Running file:",filename)
-    gt.Run(filename)
-    return "Running File:", filename, status.HTTP_200_OK
+    gt.Run(os.getcwd() + '/uploads/' + filename)
+    #return "Running File: "+filename, status.HTTP_200_OK
+    flash("Running File: "+filename, 'success')
+    return redirect(url_for('main'))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
